@@ -300,7 +300,7 @@
     }
     .funnel-meta strong { color: var(--green); }
 
-    /* ── TABLE (transposed) ── */
+    /* ── TABLE (transposed / generic) ── */
     .table-wrap { overflow-x: auto; margin-bottom: 1rem; border-radius: 12px; border: 1px solid var(--border); }
     table {
       width: 100%;
@@ -356,7 +356,6 @@
       padding: 0.45rem 0.9rem;
       border-bottom: 1px solid var(--border);
     }
-    /* highlighted metric rows */
     tr.row-hl td { background: rgba(124,58,237,0.07); }
     tr.row-hl td.metric-name { color: #fff; }
     tr.row-hl:hover td { background: rgba(124,58,237,0.12); }
@@ -374,45 +373,56 @@
     }
     .table-note strong { color: var(--purple-soft); }
 
-    /* ── ADS TABLE ── */
-    .ads-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      margin-bottom: 1rem;
+    /* ── CREATIVES TABLE ── */
+    .cre-wrap { overflow-x: auto; margin-bottom: 1rem; border-radius: 12px; border: 1px solid var(--border); }
+    table.cre {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      min-width: 880px;
     }
-    .ad-row {
-      display: grid;
-      grid-template-columns: 1.6rem 1fr repeat(4, auto);
-      gap: 0.6rem 1rem;
-      align-items: center;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.75rem 1rem;
-      transition: border-color .2s;
-    }
-    .ad-row:hover { border-color: rgba(124,58,237,0.4); }
-    .ad-row.top1 { border-color: rgba(34,197,94,0.5); background: linear-gradient(90deg,#0f2a1a,#1a1a28); }
-    .ad-rank { font-size: 0.8rem; font-weight: 800; color: var(--muted); text-align: center; }
-    .ad-row.top1 .ad-rank { color: var(--green); }
-    .ad-name { font-size: 0.8rem; font-weight: 600; color: var(--white); overflow: hidden; text-overflow: ellipsis; }
-    .ad-name .ad-tag {
-      display: inline-block;
+    table.cre thead th {
+      background: var(--bg3);
+      padding: 0.7rem 0.8rem;
+      text-align: center;
       font-size: 0.62rem;
       font-weight: 700;
       letter-spacing: 0.08em;
-      background: var(--purple-muted);
-      color: var(--purple-soft);
-      border-radius: 4px;
-      padding: 0.1rem 0.4rem;
-      margin-right: 0.4rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border);
     }
-    .ad-chip { text-align: right; min-width: 72px; }
-    .ad-chip .label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-    .ad-chip .val { font-size: 0.85rem; font-weight: 700; color: var(--white); }
-    .ad-chip .val.cpl-good { color: var(--green); }
-    .ad-chip .val.cpl-bad { color: #f87171; }
+    table.cre thead th.name-col { text-align: left; }
+    table.cre thead th.lead-col { color: var(--green); background: rgba(34,197,94,0.06); }
+    table.cre tbody td {
+      padding: 0.6rem 0.8rem;
+      text-align: center;
+      white-space: nowrap;
+      border-bottom: 1px solid rgba(42,42,61,0.5);
+      vertical-align: middle;
+    }
+    table.cre tbody tr:hover td { background: rgba(124,58,237,0.05); }
+    table.cre tbody tr.top1 td { background: rgba(34,197,94,0.06); }
+    table.cre tbody tr.top1:hover td { background: rgba(34,197,94,0.1); }
+    .cre-rank { font-weight: 800; color: var(--muted); font-size: 0.8rem; }
+    tr.top1 .cre-rank { color: var(--green); }
+    .cre-name { text-align: left !important; }
+    .cre-name a {
+      color: var(--white);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(167,139,250,0.5);
+      transition: color .15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .cre-name a:hover { color: var(--purple-soft); border-bottom-color: var(--purple-soft); }
+    .cre-name a .drv { font-size: 0.7rem; opacity: 0.7; }
+    .cre-lead { font-weight: 800; color: #4ade80 !important; font-size: 0.95rem; background: rgba(34,197,94,0.06); }
+    .cre-total td { background: linear-gradient(90deg, #1e1035, #1a1a28); border-top: 2px solid var(--purple); font-weight: 700; color: var(--white); }
+    .cre-total td.cre-name { color: var(--purple-soft); }
 
     /* ── FOOTER ── */
     footer {
@@ -424,11 +434,8 @@
     }
     footer strong { color: var(--purple-soft); }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
       .funnel-right { display: none; }
-      .ad-row { grid-template-columns: 1.4rem 1fr auto auto; }
-      .ad-chip:nth-child(4), .ad-chip:nth-child(5) { display: none; }
     }
   </style>
 </head>
@@ -454,7 +461,7 @@
     <div class="avaliacao-icon">💬</div>
     <h3>Avaliação do Funil</h3>
     <p>
-      A campanha <strong>começou muito bem</strong>, apesar de no primeiro dia (13/Jun) ter sido mais cara — algo esperado na fase de aprendizado do algoritmo. A partir do segundo dia os resultados melhoraram expressivamente: <strong>14/Jun registrou CPL de R$1,53</strong>, abaixo da nossa meta de R$1,75, com 406 leads em um único dia. Hoje (15/Jun) a campanha foi <strong>pausada temporariamente por falha no pagamento</strong>, o que torna o CPL momentaneamente maior (R$2,14 parcial). Já está estabilizando — ontem ficou em R$1,53 e a tendência é voltar a esse patamar ou melhor nos próximos dias.
+      A campanha <strong>começou muito bem</strong>, apesar de no primeiro dia (13/Jun) ter sido mais cara — algo esperado na fase de aprendizado do algoritmo. A partir do segundo dia os resultados melhoraram bastante: <strong>14/Jun registrou CPL de R$1,53</strong>, abaixo da nossa meta de R$1,75, com 406 leads em um único dia. Hoje (15/Jun) a campanha foi <strong>pausada temporariamente por falha no pagamento</strong> e reativada — por isso o CPL parcial está em R$2,02, ainda em normalização. A tendência é voltar ao patamar de ontem ou melhor. No total do período já são <strong>590 leads</strong> com CPL médio de <strong>R$1,94</strong>.
     </p>
   </div>
 
@@ -463,38 +470,38 @@
   <div class="summary-grid">
     <div class="metric-card highlight">
       <div class="label">Investimento</div>
-      <div class="value">R$1.065</div>
-      <div class="sub warn">+13,83% imp → R$1.212</div>
+      <div class="value">R$1.142</div>
+      <div class="sub warn">+13,83% imp → R$1.300</div>
     </div>
     <div class="metric-card">
       <div class="label">Impressões</div>
-      <div class="value">76.260</div>
-      <div class="sub">CPM médio R$13,96</div>
+      <div class="value">83.932</div>
+      <div class="sub">CPM médio R$13,61</div>
     </div>
     <div class="metric-card">
       <div class="label">Alcance</div>
-      <div class="value">~66,6K</div>
-      <div class="sub">Freq. média 1,14</div>
+      <div class="value">~72,5K</div>
+      <div class="sub">Freq. média 1,16</div>
     </div>
     <div class="metric-card">
       <div class="label">Hook Rate</div>
-      <div class="value">32,7%</div>
-      <div class="sub">24.941 plays de 3s</div>
+      <div class="value">32,9%</div>
+      <div class="sub">27.649 plays de 3s</div>
     </div>
     <div class="metric-card">
       <div class="label">Cliques no Link</div>
-      <div class="value">1.492</div>
-      <div class="sub">CTR Link 1,96%</div>
+      <div class="value">1.626</div>
+      <div class="sub">CTR Link 1,94%</div>
     </div>
     <div class="metric-card">
       <div class="label">Vis. de Página</div>
-      <div class="value">1.143</div>
-      <div class="sub">Tx. Conexão 76,6%</div>
+      <div class="value">1.233</div>
+      <div class="sub">Connect Rate 75,8%</div>
     </div>
     <div class="metric-card highlight">
       <div class="label">Total de Leads</div>
-      <div class="value">546</div>
-      <div class="sub good">CPL Médio R$1,95</div>
+      <div class="value">590</div>
+      <div class="sub good">CPL Médio R$1,94</div>
     </div>
     <div class="metric-card">
       <div class="label">Meta de CPL</div>
@@ -513,8 +520,8 @@
         <div class="funnel-icon">💰</div>
         <div>
           <div class="funnel-label">Investimento</div>
-          <div class="funnel-main-val">R$ 1.064,67</div>
-          <div class="funnel-sub-val yellow">Com impostos (13,83%): R$ 1.211,94</div>
+          <div class="funnel-main-val">R$ 1.142,19</div>
+          <div class="funnel-sub-val yellow">Com impostos (13,83%): R$ 1.300,17</div>
         </div>
         <div class="funnel-right"><div class="funnel-badge">Topo do Funil</div></div>
       </div>
@@ -527,10 +534,10 @@
         <div class="funnel-icon">📡</div>
         <div>
           <div class="funnel-label">CPM · Impressões</div>
-          <div class="funnel-main-val">76.260 <span style="font-size:.9rem;color:var(--muted)">impressões</span></div>
-          <div class="funnel-sub-val">CPM Médio: R$ 13,96</div>
+          <div class="funnel-main-val">83.932 <span style="font-size:.9rem;color:var(--muted)">impressões</span></div>
+          <div class="funnel-sub-val">CPM Médio: R$ 13,61</div>
         </div>
-        <div class="funnel-right"><div class="funnel-rate-label">Custo por mil</div><div class="funnel-rate">R$ 13,96</div></div>
+        <div class="funnel-right"><div class="funnel-rate-label">Custo por mil</div><div class="funnel-rate">R$ 13,61</div></div>
       </div>
     </div>
     <div class="funnel-connector"></div>
@@ -541,10 +548,10 @@
         <div class="funnel-icon">👥</div>
         <div>
           <div class="funnel-label">Alcance · Frequência</div>
-          <div class="funnel-main-val">~66.600 <span style="font-size:.9rem;color:var(--muted)">pessoas únicas</span></div>
-          <div class="funnel-sub-val">Frequência média: 1,14×</div>
+          <div class="funnel-main-val">~72.554 <span style="font-size:.9rem;color:var(--muted)">pessoas únicas</span></div>
+          <div class="funnel-sub-val">Frequência média: 1,16×</div>
         </div>
-        <div class="funnel-right"><div class="funnel-rate-label">Freq. média</div><div class="funnel-rate">1,14×</div></div>
+        <div class="funnel-right"><div class="funnel-rate-label">Freq. média</div><div class="funnel-rate">1,16×</div></div>
       </div>
     </div>
     <div class="funnel-connector"></div>
@@ -555,10 +562,10 @@
         <div class="funnel-icon">🎬</div>
         <div>
           <div class="funnel-label">Hook Rate <span style="font-size:.6rem;font-weight:400;color:var(--muted)">(plays de 3s ÷ impressões)</span></div>
-          <div class="funnel-main-val">32,7% <span style="font-size:.9rem;color:var(--muted)">retenção inicial</span></div>
-          <div class="funnel-sub-val">24.941 reproduções de 3 segundos</div>
+          <div class="funnel-main-val">32,9% <span style="font-size:.9rem;color:var(--muted)">retenção inicial</span></div>
+          <div class="funnel-sub-val">27.649 reproduções de 3 segundos</div>
         </div>
-        <div class="funnel-right"><div class="funnel-badge">Hook Rate</div><div class="funnel-rate">32,7%</div></div>
+        <div class="funnel-right"><div class="funnel-badge">Hook Rate</div><div class="funnel-rate">32,9%</div></div>
       </div>
     </div>
     <div class="funnel-connector"></div>
@@ -569,10 +576,10 @@
         <div class="funnel-icon">🖱️</div>
         <div>
           <div class="funnel-label">Cliques no Link · CPC</div>
-          <div class="funnel-main-val">1.492 <span style="font-size:.9rem;color:var(--muted)">cliques</span></div>
-          <div class="funnel-sub-val">CPC no Link: R$ 0,71</div>
+          <div class="funnel-main-val">1.626 <span style="font-size:.9rem;color:var(--muted)">cliques</span></div>
+          <div class="funnel-sub-val">CPC no Link: R$ 0,70 &nbsp;·&nbsp; CTR Geral: 3,24%</div>
         </div>
-        <div class="funnel-right"><div class="funnel-rate-label">CPC Link</div><div class="funnel-rate">R$ 0,71</div></div>
+        <div class="funnel-right"><div class="funnel-rate-label">CPC Link</div><div class="funnel-rate">R$ 0,70</div></div>
       </div>
     </div>
     <div class="funnel-connector"></div>
@@ -583,24 +590,24 @@
         <div class="funnel-icon">📊</div>
         <div>
           <div class="funnel-label">CTR do Clique no Link</div>
-          <div class="funnel-main-val">1,96% <span style="font-size:.9rem;color:var(--muted)">CTR médio</span></div>
+          <div class="funnel-main-val">1,94% <span style="font-size:.9rem;color:var(--muted)">CTR link médio</span></div>
           <div class="funnel-sub-val">14/Jun → 2,25% &nbsp;·&nbsp; 15/Jun → 1,73%</div>
         </div>
-        <div class="funnel-right"><div class="funnel-rate-label">CTR Médio</div><div class="funnel-rate">1,96%</div></div>
+        <div class="funnel-right"><div class="funnel-rate-label">CTR Link</div><div class="funnel-rate">1,94%</div></div>
       </div>
     </div>
     <div class="funnel-connector"></div>
 
-    <!-- 7. VISUALIZAÇÕES DE PÁGINA + TAXA DE CONEXÃO -->
+    <!-- 7. VISUALIZAÇÕES DE PÁGINA + CONNECT RATE -->
     <div class="funnel-stage">
       <div class="funnel-inner">
         <div class="funnel-icon">📄</div>
         <div>
           <div class="funnel-label">Visualizações de Página</div>
-          <div class="funnel-main-val">1.143 <span style="font-size:.9rem;color:var(--muted)">page views</span></div>
-          <div class="funnel-sub-val green">Taxa de Conexão: 76,6% &nbsp;·&nbsp; Custo/Vis.: R$ 0,93</div>
+          <div class="funnel-main-val">1.233 <span style="font-size:.9rem;color:var(--muted)">page views</span></div>
+          <div class="funnel-sub-val green">Connect Rate: 75,8% &nbsp;·&nbsp; Custo/Vis.: R$ 0,93</div>
         </div>
-        <div class="funnel-right"><div class="funnel-badge">Conexão</div><div class="funnel-rate" style="color:var(--green)">76,6%</div><div class="funnel-rate-label">page views ÷ cliques</div></div>
+        <div class="funnel-right"><div class="funnel-badge">Connect Rate</div><div class="funnel-rate" style="color:var(--green)">75,8%</div><div class="funnel-rate-label">page views ÷ cliques</div></div>
       </div>
     </div>
     <div class="funnel-connector"></div>
@@ -611,10 +618,10 @@
         <div class="funnel-icon">🎯</div>
         <div>
           <div class="funnel-label">Leads Captados</div>
-          <div class="funnel-main-val" style="color:#4ade80">546 leads</div>
-          <div class="funnel-sub-val green">CPL s/ imp: R$ 1,95 &nbsp;·&nbsp; CPL c/ imp: R$ 2,22</div>
+          <div class="funnel-main-val" style="color:#4ade80">590 leads</div>
+          <div class="funnel-sub-val green">CPL s/ imp: R$ 1,94 &nbsp;·&nbsp; CPL c/ imp: R$ 2,21</div>
         </div>
-        <div class="funnel-right"><div class="funnel-badge" style="background:var(--green-soft);border-color:rgba(34,197,94,.35);color:var(--green)">CPL Médio</div><div class="funnel-rate" style="color:#4ade80;font-size:1.3rem">R$ 1,95</div><div class="funnel-rate-label">s/ impostos</div></div>
+        <div class="funnel-right"><div class="funnel-badge" style="background:var(--green-soft);border-color:rgba(34,197,94,.35);color:var(--green)">CPL Médio</div><div class="funnel-rate" style="color:#4ade80;font-size:1.3rem">R$ 1,94</div><div class="funnel-rate-label">s/ impostos</div></div>
       </div>
     </div>
 
@@ -644,16 +651,16 @@
         <tr class="row-hl">
           <td class="metric-name">Investimento</td>
           <td>R$ 246,39</td>
-          <td class="day-best">R$ 621,17</td>
-          <td>R$ 197,11</td>
-          <td class="col-total">R$ 1.064,67</td>
+          <td class="day-best">R$ 621,35</td>
+          <td>R$ 274,45</td>
+          <td class="col-total">R$ 1.142,19</td>
         </tr>
         <tr>
           <td class="metric-name">Investimento c/ imposto <small>+13,83%</small></td>
           <td>R$ 280,46</td>
-          <td class="day-best">R$ 707,08</td>
-          <td>R$ 224,40</td>
-          <td class="col-total">R$ 1.211,94</td>
+          <td class="day-best">R$ 707,28</td>
+          <td>R$ 312,40</td>
+          <td class="col-total">R$ 1.300,17</td>
         </tr>
 
         <!-- ALCANCE -->
@@ -661,61 +668,68 @@
         <tr>
           <td class="metric-name">Impressões</td>
           <td>16.494</td>
-          <td class="day-best">41.187</td>
-          <td>18.579</td>
-          <td class="col-total">76.260</td>
+          <td class="day-best">41.189</td>
+          <td>26.249</td>
+          <td class="col-total">83.932</td>
         </tr>
         <tr>
           <td class="metric-name">CPM <small>custo por mil</small></td>
           <td class="cpl-warn">R$ 14,94</td>
-          <td class="day-best">R$ 15,08</td>
-          <td class="cpl-good">R$ 10,61</td>
-          <td class="col-total">R$ 13,96</td>
+          <td class="day-best">R$ 15,09</td>
+          <td class="cpl-good">R$ 10,46</td>
+          <td class="col-total">R$ 13,61</td>
         </tr>
         <tr>
           <td class="metric-name">Alcance</td>
           <td>16.327</td>
           <td class="day-best">35.822</td>
-          <td>16.230</td>
-          <td class="col-total">~66.600†</td>
+          <td>23.783</td>
+          <td class="col-total">~72.554†</td>
         </tr>
         <tr>
           <td class="metric-name">Frequência</td>
           <td>1,01×</td>
           <td class="day-best">1,15×</td>
-          <td>1,14×</td>
-          <td class="col-total">1,14×†</td>
+          <td>1,10×</td>
+          <td class="col-total">1,16×†</td>
         </tr>
 
-        <!-- ENGAJAMENTO -->
+        <!-- VÍDEO & CLIQUE -->
         <tr class="cat-row"><td colspan="5">🎬 Vídeo & Clique</td></tr>
         <tr>
           <td class="metric-name">Hook Rate <small>plays 3s ÷ impr.</small></td>
           <td class="cpl-good">33,9%</td>
           <td class="day-best">32,5%</td>
-          <td>32,0%</td>
-          <td class="col-total">32,7%</td>
+          <td>33,0%</td>
+          <td class="col-total">32,9%</td>
         </tr>
         <tr class="row-hl">
           <td class="metric-name">Cliques no Link</td>
           <td>246</td>
           <td class="day-best">925</td>
-          <td>321</td>
-          <td class="col-total">1.492</td>
+          <td>455</td>
+          <td class="col-total">1.626</td>
         </tr>
         <tr>
           <td class="metric-name">CPC no Link</td>
           <td class="cpl-bad">R$ 1,00</td>
           <td class="day-best">R$ 0,67</td>
-          <td class="cpl-good">R$ 0,61</td>
-          <td class="col-total">R$ 0,71</td>
+          <td class="cpl-good">R$ 0,60</td>
+          <td class="col-total">R$ 0,70</td>
+        </tr>
+        <tr>
+          <td class="metric-name">CTR <small>todos os cliques</small></td>
+          <td>2,27%</td>
+          <td class="day-best">3,68%</td>
+          <td>3,17%</td>
+          <td class="col-total">3,24%</td>
         </tr>
         <tr>
           <td class="metric-name">CTR do Link</td>
           <td>1,49%</td>
           <td class="day-best">2,25%</td>
           <td>1,73%</td>
-          <td class="col-total">1,96%</td>
+          <td class="col-total">1,94%</td>
         </tr>
 
         <!-- PÁGINA -->
@@ -723,16 +737,16 @@
         <tr>
           <td class="metric-name">Visualizações de Página</td>
           <td>171</td>
-          <td class="day-best">746</td>
-          <td>226</td>
-          <td class="col-total">1.143</td>
+          <td class="day-best">747</td>
+          <td>315</td>
+          <td class="col-total">1.233</td>
         </tr>
         <tr>
-          <td class="metric-name">Taxa de Conexão <small>page views ÷ cliques</small></td>
+          <td class="metric-name">Connect Rate <small>page views ÷ cliques</small></td>
           <td class="cpl-warn">69,5%</td>
-          <td class="day-best cpl-good">80,6%</td>
-          <td>70,4%</td>
-          <td class="col-total">76,6%</td>
+          <td class="day-best cpl-good">80,8%</td>
+          <td>69,2%</td>
+          <td class="col-total">75,8%</td>
         </tr>
         <tr>
           <td class="metric-name">Custo por Vis. de Página</td>
@@ -748,22 +762,22 @@
           <td class="metric-name">Leads</td>
           <td>48</td>
           <td class="day-best">406</td>
-          <td>92</td>
-          <td class="col-total">546</td>
+          <td>136</td>
+          <td class="col-total">590</td>
         </tr>
         <tr class="row-hl">
           <td class="metric-name">CPL <small>custo por lead</small></td>
           <td class="cpl-bad">R$ 5,13</td>
           <td class="day-best cpl-good">R$ 1,53</td>
-          <td class="cpl-warn">R$ 2,14</td>
-          <td class="col-total">R$ 1,95</td>
+          <td class="cpl-warn">R$ 2,02</td>
+          <td class="col-total">R$ 1,94</td>
         </tr>
         <tr>
           <td class="metric-name">CPL c/ imposto <small>+13,83%</small></td>
           <td class="cpl-bad">R$ 5,84</td>
           <td class="day-best cpl-good">R$ 1,74</td>
-          <td class="cpl-warn">R$ 2,44</td>
-          <td class="col-total">R$ 2,22</td>
+          <td class="cpl-warn">R$ 2,30</td>
+          <td class="col-total">R$ 2,21</td>
         </tr>
       </tbody>
     </table>
@@ -774,105 +788,152 @@
     Visualizações de página estimadas via custo por landing page view do Meta. Meta de CPL: <strong>R$ 1,75</strong>.
   </p>
 
-  <!-- TOP 10 ADS -->
-  <div class="section-title">Top 10 Anúncios por Custo por Lead · 15/Jun</div>
-  <div class="ads-grid">
-
-    <div class="ad-row">
-      <div class="ad-rank">#1</div>
-      <div class="ad-name"><span class="ad-tag">ADV06</span>CONVITE_0.32 · Cam. 02</div>
-      <div class="ad-chip"><div class="label">CPL</div><div class="val cpl-good">R$ 0,20</div></div>
-      <div class="ad-chip"><div class="label">Leads</div><div class="val">1</div></div>
-      <div class="ad-chip"><div class="label">Invest.</div><div class="val">R$ 0,20</div></div>
-      <div class="ad-chip"><div class="label">CTR</div><div class="val">5,71%</div></div>
-    </div>
-
-    <div class="ad-row">
-      <div class="ad-rank">#2</div>
-      <div class="ad-name"><span class="ad-tag">ADV09</span>TODA PROFESSORA_0.38 · Cam. 02</div>
-      <div class="ad-chip"><div class="label">CPL</div><div class="val cpl-good">R$ 0,40</div></div>
-      <div class="ad-chip"><div class="label">Leads</div><div class="val">1</div></div>
-      <div class="ad-chip"><div class="label">Invest.</div><div class="val">R$ 0,40</div></div>
-      <div class="ad-chip"><div class="label">CTR</div><div class="val">7,69%</div></div>
-    </div>
-
-    <div class="ad-row">
-      <div class="ad-rank">#3</div>
-      <div class="ad-name"><span class="ad-tag">ADV03</span>ATUALIZACOES 1_0.37 · Cam. 01</div>
-      <div class="ad-chip"><div class="label">CPL</div><div class="val cpl-good">R$ 0,55</div></div>
-      <div class="ad-chip"><div class="label">Leads</div><div class="val">2</div></div>
-      <div class="ad-chip"><div class="label">Invest.</div><div class="val">R$ 1,10</div></div>
-      <div class="ad-chip"><div class="label">CTR</div><div class="val">3,53%</div></div>
-    </div>
-
-    <div class="ad-row">
-      <div class="ad-rank">#4</div>
-      <div class="ad-name"><span class="ad-tag">ADV06</span>CONVITE_0.32 · Cam. 01</div>
-      <div class="ad-chip"><div class="label">CPL</div><div class="val cpl-good">R$ 0,56</div></div>
-      <div class="ad-chip"><div class="label">Leads</div><div class="val">2</div></div>
-      <div class="ad-chip"><div class="label">Invest.</div><div class="val">R$ 1,12</div></div>
-      <div class="ad-chip"><div class="label">CTR</div><div class="val">3,95%</div></div>
-    </div>
-
-    <div class="ad-row">
-      <div class="ad-rank">#5</div>
-      <div class="ad-name"><span class="ad-tag">ADV06</span>CONVITE_0.32 · Cam. 03</div>
-      <div class="ad-chip"><div class="label">CPL</div><div class="val cpl-good">R$ 0,87</div></div>
-      <div class="ad-chip"><div class="label">Leads</div><div class="val">1</div></div>
-      <div class="ad-chip"><div class="label">Invest.</div><div class="val">R$ 0,87</div></div>
-      <div class="ad-chip"><div class="label">CTR</div><div class="val">5,95%</div></div>
-    </div>
-
-    <div class="ad-row top1">
-      <div class="ad-rank">#6</div>
-      <div class="ad-name"><span class="ad-tag">ADV05</span>BNCC COMPUTACAO2_0.52 · Cam. 01</div>
-      <div class="ad-chip"><div class="label">CPL</div><div class="val cpl-good">R$ 1,30</div></div>
-      <div class="ad-chip"><div class="label">Leads</div><div class="val" style="color:var(--green)">13</div></div>
-      <div class="ad-chip"><div class="label">Invest.</div><div class="val">R$ 16,94</div></div>
-      <div class="ad-chip"><div class="label">CTR</div><div class="val">3,12%</div></div>
-    </div>
-
-    <div class="ad-row">
-      <div class="ad-rank">#7</div>
-      <div class="ad-name"><span class="ad-tag">ADV05</span>BNCC COMPUTACAO2_0.52 · Cam. 02</div>
-      <div class="ad-chip"><div class="label">CPL</div><div class="val cpl-good">R$ 1,69</div></div>
-      <div class="ad-chip"><div class="label">Leads</div><div class="val">3</div></div>
-      <div class="ad-chip"><div class="label">Invest.</div><div class="val">R$ 5,06</div></div>
-      <div class="ad-chip"><div class="label">CTR</div><div class="val">1,92%</div></div>
-    </div>
-
-    <div class="ad-row">
-      <div class="ad-rank">#8</div>
-      <div class="ad-name"><span class="ad-tag">ADV07</span>A BNCC_0.49 · Cam. 02 <span style="font-size:.65rem;color:var(--purple-soft)">(maior volume)</span></div>
-      <div class="ad-chip"><div class="label">CPL</div><div class="val cpl-warn">R$ 2,14</div></div>
-      <div class="ad-chip"><div class="label">Leads</div><div class="val" style="color:var(--purple-soft)">34</div></div>
-      <div class="ad-chip"><div class="label">Invest.</div><div class="val">R$ 72,75</div></div>
-      <div class="ad-chip"><div class="label">CTR</div><div class="val">3,74%</div></div>
-    </div>
-
-    <div class="ad-row">
-      <div class="ad-rank">#9</div>
-      <div class="ad-name"><span class="ad-tag">ADV07</span>A BNCC_0.49 · Cam. 03</div>
-      <div class="ad-chip"><div class="label">CPL</div><div class="val cpl-warn">R$ 2,41</div></div>
-      <div class="ad-chip"><div class="label">Leads</div><div class="val">27</div></div>
-      <div class="ad-chip"><div class="label">Invest.</div><div class="val">R$ 64,95</div></div>
-      <div class="ad-chip"><div class="label">CTR</div><div class="val">2,96%</div></div>
-    </div>
-
-    <div class="ad-row">
-      <div class="ad-rank">#10</div>
-      <div class="ad-name"><span class="ad-tag">ADV02</span>FICOU SABENDO_0.40 · Cam. 01</div>
-      <div class="ad-chip"><div class="label">CPL</div><div class="val cpl-bad">R$ 3,92</div></div>
-      <div class="ad-chip"><div class="label">Leads</div><div class="val">3</div></div>
-      <div class="ad-chip"><div class="label">Invest.</div><div class="val">R$ 11,76</div></div>
-      <div class="ad-chip"><div class="label">CTR</div><div class="val">2,75%</div></div>
-    </div>
-
+  <!-- TOP CRIATIVOS -->
+  <div class="section-title">Criativos · Do que mais converteu ao que menos converteu (Total 13–15 Jun)</div>
+  <div class="cre-wrap">
+    <table class="cre">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th class="name-col">Criativo <span style="font-weight:400;text-transform:none;color:var(--purple-soft)">(clique → Drive)</span></th>
+          <th class="lead-col">Leads</th>
+          <th>CPL</th>
+          <th>CTR</th>
+          <th>Vis. Página</th>
+          <th>Custo/Vis.</th>
+          <th>Connect Rate</th>
+          <th>Investido</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="top1">
+          <td class="cre-rank">1</td>
+          <td class="cre-name"><a href="https://drive.google.com/drive/folders/1gNcfytaSq9JTKEaBk57p8p0kvW7Vdhqa" target="_blank" rel="noopener">ADV07_BNCP002_CAP_A BNCC_0.49 <span class="drv">🔗</span></a></td>
+          <td class="cre-lead">305</td>
+          <td class="cpl-good">R$ 1,66</td>
+          <td>3,60%</td>
+          <td>613</td>
+          <td>R$ 0,82</td>
+          <td>75,7%</td>
+          <td>R$ 505,68</td>
+        </tr>
+        <tr>
+          <td class="cre-rank">2</td>
+          <td class="cre-name"><a href="https://drive.google.com/drive/folders/1gNcfytaSq9JTKEaBk57p8p0kvW7Vdhqa" target="_blank" rel="noopener">ADV05_BNCP002_CAP_BNCC COMPUTACAO2_0.52 <span class="drv">🔗</span></a></td>
+          <td class="cre-lead">132</td>
+          <td class="cpl-good">R$ 1,74</td>
+          <td>3,08%</td>
+          <td>242</td>
+          <td>R$ 0,95</td>
+          <td>77,1%</td>
+          <td>R$ 229,66</td>
+        </tr>
+        <tr>
+          <td class="cre-rank">3</td>
+          <td class="cre-name"><a href="https://drive.google.com/drive/folders/1gNcfytaSq9JTKEaBk57p8p0kvW7Vdhqa" target="_blank" rel="noopener">ADV06_BNCP002_CAP_CONVITE_0.32 <span class="drv">🔗</span></a></td>
+          <td class="cre-lead">41</td>
+          <td class="cpl-good">R$ 1,99</td>
+          <td>2,92%</td>
+          <td>83</td>
+          <td>R$ 0,98</td>
+          <td>76,1%</td>
+          <td>R$ 81,48</td>
+        </tr>
+        <tr>
+          <td class="cre-rank">4</td>
+          <td class="cre-name"><a href="https://drive.google.com/drive/folders/1gNcfytaSq9JTKEaBk57p8p0kvW7Vdhqa" target="_blank" rel="noopener">ADV04_BNCP002_CAP_BNCC COMPUTACAO 1_0.46 <span class="drv">🔗</span></a></td>
+          <td class="cre-lead">28</td>
+          <td class="cpl-good">R$ 1,96</td>
+          <td>3,99%</td>
+          <td>72</td>
+          <td>R$ 0,76</td>
+          <td class="cpl-good">84,7%</td>
+          <td>R$ 54,81</td>
+        </tr>
+        <tr>
+          <td class="cre-rank">5</td>
+          <td class="cre-name"><a href="https://drive.google.com/drive/folders/1gNcfytaSq9JTKEaBk57p8p0kvW7Vdhqa" target="_blank" rel="noopener">ADV02_BNCP002_CAP_FICOU SABENDO_0.40 <span class="drv">🔗</span></a></td>
+          <td class="cre-lead">21</td>
+          <td class="cpl-bad">R$ 3,56</td>
+          <td>2,39%</td>
+          <td>61</td>
+          <td>R$ 1,23</td>
+          <td>71,8%</td>
+          <td>R$ 74,84</td>
+        </tr>
+        <tr>
+          <td class="cre-rank">6</td>
+          <td class="cre-name"><a href="https://drive.google.com/drive/folders/1gNcfytaSq9JTKEaBk57p8p0kvW7Vdhqa" target="_blank" rel="noopener">ADV09_BNCP002_CAP_TODA PROFESSORA_0.38 <span class="drv">🔗</span></a></td>
+          <td class="cre-lead">17</td>
+          <td class="cpl-warn">R$ 2,31</td>
+          <td>2,63%</td>
+          <td>30</td>
+          <td>R$ 1,31</td>
+          <td>78,9%</td>
+          <td>R$ 39,27</td>
+        </tr>
+        <tr>
+          <td class="cre-rank">7</td>
+          <td class="cre-name"><a href="https://drive.google.com/drive/folders/1gNcfytaSq9JTKEaBk57p8p0kvW7Vdhqa" target="_blank" rel="noopener">ADV03_BNCP002_CAP_ATUALIZACOES 1_0.37 <span class="drv">🔗</span></a></td>
+          <td class="cre-lead">16</td>
+          <td class="cpl-warn">R$ 2,69</td>
+          <td>2,82%</td>
+          <td>35</td>
+          <td>R$ 1,23</td>
+          <td>70,0%</td>
+          <td>R$ 43,02</td>
+        </tr>
+        <tr>
+          <td class="cre-rank">8</td>
+          <td class="cre-name"><a href="https://drive.google.com/drive/folders/1gNcfytaSq9JTKEaBk57p8p0kvW7Vdhqa" target="_blank" rel="noopener">ADV08_BNCP002_CAP_ATUALIZACOES 2_0.56 <span class="drv">🔗</span></a></td>
+          <td class="cre-lead">11</td>
+          <td class="cpl-bad">R$ 5,75</td>
+          <td>2,66%</td>
+          <td>49</td>
+          <td>R$ 1,29</td>
+          <td>74,2%</td>
+          <td>R$ 63,21</td>
+        </tr>
+        <tr>
+          <td class="cre-rank">9</td>
+          <td class="cre-name"><a href="https://drive.google.com/drive/folders/1gNcfytaSq9JTKEaBk57p8p0kvW7Vdhqa" target="_blank" rel="noopener">ADV01_BNCP002_CAP_PROFESSORA 1_0.43 <span class="drv">🔗</span></a></td>
+          <td class="cre-lead">10</td>
+          <td class="cpl-warn">R$ 2,54</td>
+          <td>3,49%</td>
+          <td>28</td>
+          <td>R$ 0,91</td>
+          <td>75,7%</td>
+          <td>R$ 25,43</td>
+        </tr>
+        <tr>
+          <td class="cre-rank">10</td>
+          <td class="cre-name"><a href="https://drive.google.com/drive/folders/1gNcfytaSq9JTKEaBk57p8p0kvW7Vdhqa" target="_blank" rel="noopener">ADV10_BNCP002_CAP_PLANO DE AULA_0.43 <span class="drv">🔗</span></a></td>
+          <td class="cre-lead">9</td>
+          <td class="cpl-warn">R$ 3,45</td>
+          <td>2,11%</td>
+          <td>25</td>
+          <td>R$ 1,24</td>
+          <td>78,1%</td>
+          <td>R$ 31,06</td>
+        </tr>
+        <tr class="cre-total">
+          <td></td>
+          <td class="cre-name">TOTAL · 10 criativos</td>
+          <td class="cre-lead">590</td>
+          <td>R$ 1,95</td>
+          <td>3,25%</td>
+          <td>1.238</td>
+          <td>R$ 0,93</td>
+          <td>76,1%</td>
+          <td>R$ 1.148,46</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
-  <!-- NOTA ADS -->
   <p class="table-note">
-    ⚡ Anúncios #1–5 têm volume baixo (1–2 leads) — CPL não é estatisticamente representativo. <strong>ADV05 · BNCC COMPUTACAO2</strong> (R$1,30 · 13 leads) e <strong>ADV07 · A BNCC</strong> (R$2,14 · 34 leads) são os criativos de maior consistência e volume.
+    📁 Cada criativo roda nas <strong>3 campanhas (CBO)</strong> simultaneamente — os números acima são a <strong>soma das 3 inserções</strong> de cada criativo (por isso fecham os 590 leads). Clique no nome do criativo para abrir a <strong>pasta no Google Drive</strong>. &nbsp;
+    🏆 Destaques de volume + eficiência: <strong>ADV07 · A BNCC</strong> (305 leads · R$1,66) e <strong>ADV05 · BNCC COMPUTAÇÃO2</strong> (132 leads · R$1,74) carregam a campanha. &nbsp;
+    ⚠️ Revisar: <strong>ADV08 · ATUALIZAÇÕES 2</strong> (CPL R$5,75) e <strong>ADV02 · FICOU SABENDO</strong> (CPL R$3,56) estão acima da meta.
   </p>
 
 </main>
@@ -880,7 +941,7 @@
 <!-- ══════════════ FOOTER ══════════════ -->
 <footer>
   <strong>VOA CONHECIMENTO · BNCP002</strong> — Relatório gerado em 15 de Junho de 2026<br>
-  Dados: Meta Ads Manager · Campanha de Captação · 3 grupos ativos · Budget CBO
+  Dados: Meta Ads Manager · Campanha de Captação · 3 grupos ativos · Budget CBO · 10 criativos
 </footer>
 
 </body>
