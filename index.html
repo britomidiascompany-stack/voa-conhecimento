@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOA Conhecimento · Hub Brito Mídias</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0f;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:40px 24px;max-width:1000px;margin:0 auto;line-height:1.5}
+h1{background:linear-gradient(135deg,#7c3aed,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:36px;margin-bottom:6px;font-weight:800}
+.sub{color:#94a3b8;font-size:14px;margin-bottom:32px}
+.tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:0}
+.tabs a{padding:10px 18px;color:#94a3b8;text-decoration:none;font-size:14px;font-weight:600;border-bottom:2px solid transparent;transition:all .15s}
+.tabs a:hover{color:#a855f7}
+.tabs a.active{color:#a855f7;border-bottom-color:#a855f7}
+.section{display:none}
+.section.active{display:block}
+h2{font-size:18px;margin:24px 0 12px;color:#f1f5f9;display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:4px;height:20px;background:linear-gradient(180deg,#7c3aed,#a855f7);border-radius:2px}
+.card{background:#11111a;border-radius:12px;padding:18px 22px;margin:10px 0;border-left:3px solid #7c3aed;transition:all .15s}
+.card:hover{transform:translateX(4px);border-left-color:#a855f7}
+.card a{color:#a855f7;text-decoration:none;font-weight:700;font-size:15px;display:block}
+.card a:hover{text-decoration:underline}
+.card p{color:#64748b;font-size:13px;margin-top:6px}
+.tag{display:inline-block;background:rgba(124,58,237,.15);padding:3px 9px;border-radius:6px;font-size:11px;color:#cbd5e1;margin-left:8px;vertical-align:middle}
+.tag.new{background:rgba(34,197,94,.15);color:#4ade80}
+.tag.live{background:rgba(168,85,247,.2);color:#c084fc;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.empty{background:rgba(124,58,237,.03);border:1px dashed rgba(124,58,237,.25);border-radius:12px;padding:32px;text-align:center;color:#64748b;font-size:14px}
+</style>
+</head>
+<body>
+
+<h1>VOA Conhecimento</h1>
+<div class="sub">Hub de relatórios e documentos · Gerido pela Brito Mídias</div>
+
+<div class="tabs">
+  <a href="#captacao" class="tablink active" data-tab="captacao">🎯 Captação</a>
+  <a href="#lancamento" class="tablink" data-tab="lancamento">🚀 Lançamento</a>
+  <a href="#criativos" class="tablink" data-tab="criativos">🎨 Criativos</a>
+  <a href="#docs" class="tablink" data-tab="docs">📄 Docs</a>
+</div>
+
+<div class="section active" id="captacao">
+  <h2>BNCP002 · Captação em andamento</h2>
+  <div class="card">
+    <a href="./relatorios/bncp002-captacao-jun2026/">BNCP002 · Funil de Captação · 13–15/06/2026</a>
+    <span class="tag live">● ao vivo</span>
+    <p>🎯 507 leads · CPL R$1,92 · 3 campanhas Advantage+ CBO · Funil completo com hook rate 32,6%, taxa de conexão 93,8% · Top 10 criativos com links no Drive · Breakdown diário (D1 R$5,13 aprendizado → D2 R$1,53 meta batida)</p>
+  </div>
+</div>
+
+<div class="section" id="lancamento">
+  <div class="empty">🚀 Em breve — relatórios de lançamento serão publicados aqui.</div>
+</div>
+
+<div class="section" id="criativos">
+  <div class="empty">🎨 Em breve — análises de criativos.</div>
+</div>
+
+<div class="section" id="docs">
+  <div class="empty">📄 Em breve — contratos, briefings e registros de decisão.</div>
+</div>
+
+<script>
+document.querySelectorAll('.tablink').forEach(t=>{
+  t.addEventListener('click',e=>{
+    e.preventDefault();
+    document.querySelectorAll('.tablink').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+  });
+});
+const h=location.hash.replace('#','');
+if(h){const t=document.querySelector(`.tablink[data-tab="${h}"]`);if(t)t.click();}
+</script>
+</body>
+</html>
