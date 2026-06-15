@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BNCP002 | Relatório de Captação | VOA Conhecimento</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     :root {
       --bg: #0a0a0f;
@@ -659,6 +660,27 @@
   </style>
 </head>
 <body>
+
+<!-- ─── QR CODE FLUTUANTE ─────────────────────────────────────── -->
+<div id="qr-float" style="
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #11111a;
+  border: 1px solid rgba(124,58,237,0.4);
+  border-radius: 16px;
+  padding: 14px 16px;
+  z-index: 999;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  cursor: pointer;
+">
+  <div style="font-size:9px;color:#9ca3af;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Abrir no celular</div>
+  <div id="qrcode"></div>
+  <div style="font-size:9px;color:#6d28d9;margin-top:8px">📱 Escaneie</div>
+  <button onclick="document.getElementById('qr-float').style.display='none'"
+    style="position:absolute;top:6px;right:8px;background:none;border:none;color:#6b7280;cursor:pointer;font-size:14px;line-height:1">×</button>
+</div>
 
 <!-- ─── HEADER ──────────────────────────────────────────────────── -->
 <header class="header">
@@ -1392,5 +1414,15 @@
   ⚠ Visitas ao perfil não disponíveis via API Meta Ads padrão · Taxa de conexão = views de página ÷ cliques no link
 </footer>
 
+<script>
+  new QRCode(document.getElementById("qrcode"), {
+    text: "https://britomidiascompany-stack.github.io/voa-conhecimento/2.%20BNCP/2.%20BNCP002/RELAT%C3%93RIOS%20%7C%20BNCP002%20%7C%20VOA%20CONHECIMENTO/BNCP002-funil-captacao.html",
+    width: 120,
+    height: 120,
+    colorDark: "#a855f7",
+    colorLight: "#11111a",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+</script>
 </body>
 </html>
